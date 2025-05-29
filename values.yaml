@@ -1,5 +1,15 @@
 namespace: petclinic
 
+components:
+  config-server: true
+  discovery-server: false
+  customers-service: false
+  visits-service: false
+  vets-service: false
+  api-gateway: false
+  tracing-server: false
+  admin-server: false
+
 config-server:
   replicaCount: 1
   image: springcommunity/spring-petclinic-config-server

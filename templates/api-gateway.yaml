@@ -1,4 +1,5 @@
 # petclinic-helm/templates/api-gateway.yaml
+{{- if .Values.components.api-gateway }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -51,3 +52,4 @@ spec:
     - protocol: TCP
       port: {{ .Values.api-gateway.port }}
       targetPort: {{ .Values.api-gateway.port }}
+{{- end }}

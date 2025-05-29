@@ -1,4 +1,5 @@
 # petclinic-helm/templates/visits-service.yaml
+{{- if .Values.components.visits-service }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -53,3 +54,4 @@ spec:
     - protocol: TCP
       port: {{ .Values.visits-service.port }}
       targetPort: {{ .Values.visits-service.port }}
+{{- end }}

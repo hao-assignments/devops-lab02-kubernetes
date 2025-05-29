@@ -1,4 +1,5 @@
 # petclinic-helm/templates/admin-server.yaml
+{{- if .Values.components.admin-server }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -55,3 +56,4 @@ spec:
     nodePort: {{ .Values.admin-server.nodePort }}
     {{- end }}
   type: {{ .Values.admin-server.serviceType | default "LoadBalancer" }}
+{{- end }}
