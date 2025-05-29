@@ -1,6 +1,6 @@
 namespace: petclinic
 
-config-server:
+config_server:
   replicaCount: 1
   image: springcommunity/spring-petclinic-config-server
   tag: latest
