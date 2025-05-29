@@ -40,91 +40,91 @@ customers-service:
     SPRING_CLOUD_DISCOVERY_HEALTH_RETRY_MAX_ATTEMPTS: "5"
     SPRING_CLOUD_DISCOVERY_HEALTH_RETRY_INITIAL_INTERVAL: "1000"
 
-visits-service:
-  replicaCount: 1
-  image: springcommunity/spring-petclinic-visits-service
-  tag: latest
-  port: 8082
-  resources:
-    limits:
-      memory: 512Mi
-  env:
-    SPRING_PROFILES_ACTIVE: docker
-    SPRING_CLOUD_CONFIG_URI: http://config-server:8888
-    EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://discovery-server:8761/eureka
-    MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: "*"
-    SPRING_CLOUD_DISCOVERY_HEALTH_TIMEOUT: "5000"
-    SPRING_CLOUD_DISCOVERY_CLIENT_HEALTHINDICATOR_USE-DISCOVERY-METADATA: "true"
-    SPRING_CLOUD_DISCOVERY_CLIENT_HEALTHINDICATOR_MANAGEMENT_PORT: "${management.server.port:${server.port}}"
-    SPRING_CLOUD_DISCOVERY_HEALTH_RETRY_MAX_ATTEMPTS: "5"
-    SPRING_CLOUD_DISCOVERY_HEALTH_RETRY_INITIAL_INTERVAL: "1000"
+# visits-service:
+#   replicaCount: 1
+#   image: springcommunity/spring-petclinic-visits-service
+#   tag: latest
+#   port: 8082
+#   resources:
+#     limits:
+#       memory: 512Mi
+#   env:
+#     SPRING_PROFILES_ACTIVE: docker
+#     SPRING_CLOUD_CONFIG_URI: http://config-server:8888
+#     EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://discovery-server:8761/eureka
+#     MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: "*"
+#     SPRING_CLOUD_DISCOVERY_HEALTH_TIMEOUT: "5000"
+#     SPRING_CLOUD_DISCOVERY_CLIENT_HEALTHINDICATOR_USE-DISCOVERY-METADATA: "true"
+#     SPRING_CLOUD_DISCOVERY_CLIENT_HEALTHINDICATOR_MANAGEMENT_PORT: "${management.server.port:${server.port}}"
+#     SPRING_CLOUD_DISCOVERY_HEALTH_RETRY_MAX_ATTEMPTS: "5"
+#     SPRING_CLOUD_DISCOVERY_HEALTH_RETRY_INITIAL_INTERVAL: "1000"
 
-vets-service:
-  replicaCount: 1
-  image: springcommunity/spring-petclinic-vets-service
-  tag: latest
-  port: 8083
-  resources:
-    limits:
-      memory: 512Mi
-  env:
-    SPRING_PROFILES_ACTIVE: docker
-    SPRING_CLOUD_CONFIG_URI: http://config-server:8888
-    EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://discovery-server:8761/eureka
-    MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: "*"
-    SPRING_CLOUD_DISCOVERY_HEALTH_TIMEOUT: "5000"
-    SPRING_CLOUD_DISCOVERY_CLIENT_HEALTHINDICATOR_USE-DISCOVERY-METADATA: "true"
-    SPRING_CLOUD_DISCOVERY_CLIENT_HEALTHINDICATOR_MANAGEMENT_PORT: "${management.server.port:${server.port}}"
-    SPRING_CLOUD_DISCOVERY_HEALTH_RETRY_MAX_ATTEMPTS: "5"
-    SPRING_CLOUD_DISCOVERY_HEALTH_RETRY_INITIAL_INTERVAL: "1000"
+# vets-service:
+#   replicaCount: 1
+#   image: springcommunity/spring-petclinic-vets-service
+#   tag: latest
+#   port: 8083
+#   resources:
+#     limits:
+#       memory: 512Mi
+#   env:
+#     SPRING_PROFILES_ACTIVE: docker
+#     SPRING_CLOUD_CONFIG_URI: http://config-server:8888
+#     EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://discovery-server:8761/eureka
+#     MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: "*"
+#     SPRING_CLOUD_DISCOVERY_HEALTH_TIMEOUT: "5000"
+#     SPRING_CLOUD_DISCOVERY_CLIENT_HEALTHINDICATOR_USE-DISCOVERY-METADATA: "true"
+#     SPRING_CLOUD_DISCOVERY_CLIENT_HEALTHINDICATOR_MANAGEMENT_PORT: "${management.server.port:${server.port}}"
+#     SPRING_CLOUD_DISCOVERY_HEALTH_RETRY_MAX_ATTEMPTS: "5"
+#     SPRING_CLOUD_DISCOVERY_HEALTH_RETRY_INITIAL_INTERVAL: "1000"
 
-api-gateway:
-  replicaCount: 1
-  image: springcommunity/spring-petclinic-api-gateway
-  tag: latest
-  port: 8080
-  resources:
-    limits:
-      memory: 512Mi
-  env:
-    SPRING_PROFILES_ACTIVE: docker
-    SPRING_CLOUD_CONFIG_URI: http://config-server:8888
-    EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://discovery-server:8761/eureka
-    MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: "*"
-    SPRING_CLOUD_DISCOVERY_HEALTH_TIMEOUT: "5000"
-    SPRING_CLOUD_DISCOVERY_CLIENT_HEALTHINDICATOR_USE-DISCOVERY-METADATA: "true"
-    SPRING_CLOUD_DISCOVERY_CLIENT_HEALTHINDICATOR_MANAGEMENT_PORT: "${management.server.port:${server.port}}"
-    SPRING_CLOUD_DISCOVERY_HEALTH_RETRY_MAX_ATTEMPTS: "5"
-    SPRING_CLOUD_DISCOVERY_HEALTH_RETRY_INITIAL_INTERVAL: "1000"
+# api-gateway:
+#   replicaCount: 1
+#   image: springcommunity/spring-petclinic-api-gateway
+#   tag: latest
+#   port: 8080
+#   resources:
+#     limits:
+#       memory: 512Mi
+#   env:
+#     SPRING_PROFILES_ACTIVE: docker
+#     SPRING_CLOUD_CONFIG_URI: http://config-server:8888
+#     EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://discovery-server:8761/eureka
+#     MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: "*"
+#     SPRING_CLOUD_DISCOVERY_HEALTH_TIMEOUT: "5000"
+#     SPRING_CLOUD_DISCOVERY_CLIENT_HEALTHINDICATOR_USE-DISCOVERY-METADATA: "true"
+#     SPRING_CLOUD_DISCOVERY_CLIENT_HEALTHINDICATOR_MANAGEMENT_PORT: "${management.server.port:${server.port}}"
+#     SPRING_CLOUD_DISCOVERY_HEALTH_RETRY_MAX_ATTEMPTS: "5"
+#     SPRING_CLOUD_DISCOVERY_HEALTH_RETRY_INITIAL_INTERVAL: "1000"
 
-tracing-server:
-  replicaCount: 1
-  image: openzipkin/zipkin
-  tag: latest
-  port: 9411
-  serviceType: LoadBalancer # Or NodePort
-  nodePort: 31411
-  resources:
-    limits:
-      memory: 512Mi
+# tracing-server:
+#   replicaCount: 1
+#   image: openzipkin/zipkin
+#   tag: latest
+#   port: 9411
+#   serviceType: LoadBalancer # Or NodePort
+#   nodePort: 31411
+#   resources:
+#     limits:
+#       memory: 512Mi
 
-admin-server:
-  replicaCount: 1
-  image: springcommunity/spring-petclinic-admin-server
-  tag: latest
-  port: 9090
-  serviceType: LoadBalancer # Or NodePort
-  nodePort: 30090
-  resources:
-    limits:
-      memory: 512Mi
-  env:
-    SPRING_PROFILES_ACTIVE: docker
-    SPRING_CLOUD_CONFIG_URI: http://config-server:8888
-    EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://discovery-server:8761/eureka
-    MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: "*"
-    SPRING_CLOUD_DISCOVERY_HEALTH_TIMEOUT: "5000"
-    SPRING_CLOUD_DISCOVERY_CLIENT_HEALTHINDICATOR_USE-DISCOVERY-METADATA: "true"
-    SPRING_CLOUD_DISCOVERY_CLIENT_HEALTHINDICATOR_MANAGEMENT_PORT: "${management.server.port:${server.port}}"
-    SPRING_CLOUD_DISCOVERY_HEALTH_RETRY_MAX_ATTEMPTS: "5"
-    SPRING_CLOUD_DISCOVERY_HEALTH_RETRY_INITIAL_INTERVAL: "1000"
+# admin-server:
+#   replicaCount: 1
+#   image: springcommunity/spring-petclinic-admin-server
+#   tag: latest
+#   port: 9090
+#   serviceType: LoadBalancer # Or NodePort
+#   nodePort: 30090
+#   resources:
+#     limits:
+#       memory: 512Mi
+#   env:
+#     SPRING_PROFILES_ACTIVE: docker
+#     SPRING_CLOUD_CONFIG_URI: http://config-server:8888
+#     EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://discovery-server:8761/eureka
+#     MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: "*"
+#     SPRING_CLOUD_DISCOVERY_HEALTH_TIMEOUT: "5000"
+#     SPRING_CLOUD_DISCOVERY_CLIENT_HEALTHINDICATOR_USE-DISCOVERY-METADATA: "true"
+#     SPRING_CLOUD_DISCOVERY_CLIENT_HEALTHINDICATOR_MANAGEMENT_PORT: "${management.server.port:${server.port}}"
+#     SPRING_CLOUD_DISCOVERY_HEALTH_RETRY_MAX_ATTEMPTS: "5"
+#     SPRING_CLOUD_DISCOVERY_HEALTH_RETRY_INITIAL_INTERVAL: "1000"
