@@ -22,10 +22,10 @@ spec:
           image: "{{ .Values.config-server.image }}:{{ .Values.config-server.tag }}"
           ports:
             - containerPort: {{ .Values.config-server.port }}
-          {{- if .Values.config-server.resources }}
+{{- if .Values.config-server.resources }}
           resources:
-            {{- toYaml .Values.config-server.resources | nindent 12 }}
-          {{- end }}
+{{ toYaml .Values.config-server.resources | indent 12 }}
+{{- end }}
           readinessProbe:
             httpGet:
               path: /actuator/health
