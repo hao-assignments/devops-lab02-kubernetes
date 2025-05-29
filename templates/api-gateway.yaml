@@ -1,10 +1,15 @@
+# petclinic-helm/templates/api-gateway.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: api-gateway
-  namespace: {{ .Values.namespace | default "default" }}
+  name: {{ .Release.Name }}-api-gateway
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: api-gateway
+    app.kubernetes.io/name: api-gateway
+    app.kubernetes.io/instance: {{ .Release.Name }}-api-gateway
 spec:
-  replicas: 1
+  replicas: {{ .Values.api-gateway.replicaCount }}
   selector:
     matchLabels:
       app: api-gateway
@@ -15,53 +20,34 @@ spec:
     spec:
       containers:
         - name: api-gateway
-          image: {{ .Values.apigateway.image | default "springcommunity/spring-petclinic-api-gateway" }}
+          image: "{{ .Values.api-gateway.image }}:{{ .Values.api-gateway.tag }}"
           ports:
-            - containerPort: 8080
+            - containerPort: {{ .Values.api-gateway.port }}
           resources:
-            limits:
-              memory: 512Mi
+            {{- toYaml .Values.api-gateway.resources | nindent 12 }}
           env:
-            - name: SPRING_PROFILES_ACTIVE
-              value: docker
-            - name: SPRING_CLOUD_CONFIG_URI
-              value: http://config-server:8888
-            - name: EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE
-              value: http://discovery-server:8761/eureka
-            - name: EUREKA_INSTANCE_HOSTNAME
-              valueFrom:
-                fieldRef:
-                  fieldPath: status.podIP # Use Pod IP as hostname
-            - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
-              value: "*"
-            - name: SPRING_CLOUD_DISCOVERY_HEALTH_TIMEOUT
-              value: "5000"
-            - name: SPRING_CLOUD_DISCOVERY_CLIENT_HEALTHINDICATOR_USE-DISCOVERY-METADATA
-              value: "true"
-            - name: SPRING_CLOUD_DISCOVERY_CLIENT_HEALTHINDICATOR_MANAGEMENT_PORT
-              value: "${management.server.port:${server.port}}"
-            - name: SPRING_CLOUD_DISCOVERY_HEALTH_RETRY_MAX_ATTEMPTS
-              value: "5"
-            - name: SPRING_CLOUD_DISCOVERY_HEALTH_RETRY_INITIAL_INTERVAL
-              value: "1000"
-            - name: SPRING_CLOUD_DISCOVERY_CLIENT_HEALTHINDICATOR_MANAGEMENT_BASE_URL
-              value: "http://${status.podIP}:${management.server.port:${server.port}}/actuator"
+            {{- range $key, $value := .Values.api-gateway.env }}
+            - name: {{ $key }}
+              value: {{ $value | quote }}
+            {{- end }}
           readinessProbe:
             httpGet:
               path: /actuator/health
-              port: 8080
+              port: {{ .Values.api-gateway.port }}
             initialDelaySeconds: 5
             periodSeconds: 5
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: api-gateway
-  namespace: {{ .Values.namespace | default "default" }}
+  name: {{ .Release.Name }}-api-gateway-svc
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: api-gateway
 spec:
   selector:
     app: api-gateway
   ports:
     - protocol: TCP
-      port: 8080
-      targetPort: 8080
+      port: {{ .Values.api-gateway.port }}
+      targetPort: {{ .Values.api-gateway.port }}

@@ -1,10 +1,15 @@
+# petclinic-helm/templates/tracing-server.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: tracing-server
-  namespace: {{ .Values.namespace | default "default" }}
+  name: {{ .Release.Name }}-tracing-server
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: tracing-server
+    app.kubernetes.io/name: tracing-server
+    app.kubernetes.io/instance: {{ .Release.Name }}-tracing-server
 spec:
-  replicas: 1
+  replicas: {{ .Values.tracing-server.replicaCount }}
   selector:
     matchLabels:
       app: tracing-server
@@ -15,30 +20,33 @@ spec:
     spec:
       containers:
         - name: tracing-server
-          image: {{ .Values.tracingserver.image | default "openzipkin/zipkin" }}
+          image: "{{ .Values.tracing-server.image }}:{{ .Values.tracing-server.tag }}"
           ports:
-            - containerPort: 9411
+            - containerPort: {{ .Values.tracing-server.port }}
           resources:
-            limits:
-              memory: 512Mi
+            {{- toYaml .Values.tracing-server.resources | nindent 12 }}
           readinessProbe:
             httpGet:
               path: /actuator/health
-              port: 9411
+              port: {{ .Values.tracing-server.port }}
             initialDelaySeconds: 5
             periodSeconds: 5
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: tracing-server
-  namespace: {{ .Values.namespace | default "default" }}
+  name: {{ .Release.Name }}-tracing-server-svc
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: tracing-server
 spec:
   selector:
     app: tracing-server
   ports:
     - protocol: TCP
-      port: 9411
-      targetPort: 9411
-      nodePort: 31411 # Optional: Expose externally
-  type: LoadBalancer # Or NodePort
+      port: {{ .Values.tracing-server.port }}
+      targetPort: {{ .Values.tracing-server.port }}
+    {{- if .Values.tracing-server.nodePort }}
+    nodePort: {{ .Values.tracing-server.nodePort }}
+    {{- end }}
+  type: {{ .Values.tracing-server.serviceType | default "LoadBalancer" }}

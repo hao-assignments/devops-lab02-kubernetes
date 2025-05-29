@@ -1,10 +1,15 @@
+# petclinic-helm/templates/config-server.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: config-server
-  namespace: {{ .Values.namespace | default "default" }}
+  name: {{ .Release.Name }}-config-server
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: config-server
+    app.kubernetes.io/name: config-server
+    app.kubernetes.io/instance: {{ .Release.Name }}-config-server
 spec:
-  replicas: 1
+  replicas: {{ .Values.config-server.replicaCount }}
   selector:
     matchLabels:
       app: config-server
@@ -15,28 +20,29 @@ spec:
     spec:
       containers:
         - name: config-server
-          image: {{ .Values.configserver.image | default "springcommunity/spring-petclinic-config-server" }}
+          image: "{{ .Values.config-server.image }}:{{ .Values.config-server.tag }}"
           ports:
-            - containerPort: 8888
+            - containerPort: {{ .Values.config-server.port }}
           resources:
-            limits:
-              memory: 512Mi
+            {{- toYaml .Values.config-server.resources | nindent 12 }}
           readinessProbe:
             httpGet:
               path: /actuator/health
-              port: 8888
+              port: {{ .Values.config-server.port }}
             initialDelaySeconds: 5
             periodSeconds: 5
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: config-server
-  namespace: {{ .Values.namespace | default "default" }}
+  name: {{ .Release.Name }}-config-server-svc
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: config-server
 spec:
   selector:
     app: config-server
   ports:
     - protocol: TCP
-      port: 8888
-      targetPort: 8888
+      port: {{ .Values.config-server.port }}
+      targetPort: {{ .Values.config-server.port }}
