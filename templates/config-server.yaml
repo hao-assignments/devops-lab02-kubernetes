@@ -1,5 +1,4 @@
 # petclinic-helm/templates/config-server.yaml
-{{- if .Values.components.config-server }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -47,4 +46,3 @@ spec:
     - protocol: TCP
       port: {{ .Values.config-server.port }}
       targetPort: {{ .Values.config-server.port }}
-{{- end }}
