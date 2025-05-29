@@ -1,4 +1,3 @@
-# petclinic-helm/templates/config-server.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -23,8 +22,10 @@ spec:
           image: "{{ .Values.config-server.image }}:{{ .Values.config-server.tag }}"
           ports:
             - containerPort: {{ .Values.config-server.port }}
+          {{- if .Values.config-server.resources }}
           resources:
             {{- toYaml .Values.config-server.resources | nindent 12 }}
+          {{- end }}
           readinessProbe:
             httpGet:
               path: /actuator/health

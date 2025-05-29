@@ -1,8 +1,5 @@
 namespace: petclinic
 
-components:
-  config-server: true
-
 config-server:
   replicaCount: 1
   image: springcommunity/spring-petclinic-config-server
@@ -11,3 +8,6 @@ config-server:
   resources:
     limits:
       memory: 512Mi
+    requests:
+      memory: 256Mi
+      cpu: 100m
