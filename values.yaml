@@ -18,7 +18,6 @@ discovery_server:
     limits:
       memory: 512Mi
   env:
-    SPRING_PROFILES_ACTIVE: docker
+    SPRING_PROFILES_ACTIVE: docker,kubernetes
     MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: "*"
     SPRING_CLOUD_CONFIG_URI: http://10.108.42.224:8888
-    CONFIG_SERVER_URL: http://10.108.42.224:8888
