@@ -17,3 +17,8 @@ vets_service:
 
 api_gateway:
   image: springcommunity/spring-petclinic-api-gateway:latest
+
+tracing_server:
+  image: openzipkin/zipkin:latest
+  serviceType: LoadBalancer 
+  nodePort: 31411
