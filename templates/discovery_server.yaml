@@ -5,8 +5,6 @@ metadata:
   namespace: {{ .Values.namespace }}
   labels:
     app: discovery-server
-    app.kubernetes.io/name: discovery-server
-    app.kubernetes.io/instance: {{ .Release.Name }}-discovery-server
 spec:
   replicas: {{ .Values.discovery_server.replicaCount }}
   selector:
@@ -24,14 +22,11 @@ spec:
             - containerPort: {{ .Values.discovery_server.port }}
           resources:
             {{- toYaml .Values.discovery_server.resources | nindent 12 }}
-          envFrom:
-            - configMapRef:
-                name: {{ .Release.Name }}-discovery-server-config
           env:
             - name: SPRING_PROFILES_ACTIVE
-              value: docker
+              value: {{ .Values.discovery_server.env.SPRING_PROFILES_ACTIVE | quote }}
             - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
-              value: "*"
+              value: {{ .Values.discovery_server.env.MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE | quote }}
           readinessProbe:
             httpGet:
               path: /actuator/health

@@ -1,4 +1,4 @@
-namespace: petclinic-dev # Default namespace for development
+namespace: petclinic-dev
 
 config_server:
   replicaCount: 1
@@ -18,8 +18,5 @@ discovery_server:
     limits:
       memory: 512Mi
   env:
-    SPRING_PROFILES_ACTIVE: docker # Keep this, as it's part of the app's expected setup
+    SPRING_PROFILES_ACTIVE: docker
     MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: "*"
-    # THIS IS THE CRUCIAL CHANGE: Override the hardcoded config server URL
-    SPRING_CONFIG_IMPORT: configserver:http://petclinic-dev-config-server-svc:8888
-    spring.cloud.config.uri: http://petclinic-dev-config-server-svc:8888
