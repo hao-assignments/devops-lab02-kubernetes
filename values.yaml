@@ -20,4 +20,4 @@ discovery_server:
   env:
     SPRING_PROFILES_ACTIVE: docker,kubernetes
     MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: "*"
-    SPRING_CLOUD_CONFIG_URI: http://10.108.42.224:8888
+    spring.cloud.config.uri: http://10.108.42.224:8888
