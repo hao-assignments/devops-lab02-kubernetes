@@ -31,7 +31,7 @@ customers_service:
       memory: 512Mi
   env:
     SPRING_PROFILES_ACTIVE: docker
-    SPRING_CLOUD_CONFIG_URI: http://config-server:8888
+    SPRING_CLOUD_CONFIG_URI: http://petclinic-config-server-svc.petclinic.svc.cluster.local:8888
     EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://discovery-server:8761/eureka
     MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: "*"
     SPRING_CLOUD_DISCOVERY_HEALTH_TIMEOUT: "5000"
@@ -50,7 +50,7 @@ visits_service:
       memory: 512Mi
   env:
     SPRING_PROFILES_ACTIVE: docker
-    SPRING_CLOUD_CONFIG_URI: http://config-server:8888
+    SPRING_CLOUD_CONFIG_URI: http://petclinic-config-server-svc.petclinic.svc.cluster.local:8888
     EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://discovery-server:8761/eureka
     MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: "*"
     SPRING_CLOUD_DISCOVERY_HEALTH_TIMEOUT: "5000"
