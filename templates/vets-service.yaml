@@ -1,12 +1,12 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Release.Name }}-vets-service
+  name: vets-service # Code cứng tên
   namespace: {{ .Values.namespace }}
   labels:
     app: vets-service
 spec:
-  replicas: {{ .Values.vets_service.replicaCount }}
+  replicas: 1
   selector:
     matchLabels:
       app: vets-service
@@ -17,48 +17,48 @@ spec:
     spec:
       containers:
         - name: vets-service
-          image: "{{ .Values.vets_service.image }}"
+          image: springcommunity/spring-petclinic-vets-service
           ports:
-            - containerPort: {{ .Values.vets_service.port }}
+            - containerPort: 8083
           resources:
             limits:
-              memory: {{ .Values.vets_service.resources.limits.memory | quote }}
+              memory: 512Mi
           env:
             - name: SPRING_PROFILES_ACTIVE
-              value: {{ .Values.vets_service.env.SPRING_PROFILES_ACTIVE | quote }}
+              value: docker
             - name: SPRING_CLOUD_CONFIG_URI
-              value: {{ .Values.vets_service.env.SPRING_CLOUD_CONFIG_URI | replace "config-server" (printf "%s-config-server-svc" .Release.Name) | quote }}
+              value: http://config-server:8888 # Code cứng tên
             - name: EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE
-              value: {{ .Values.vets_service.env.EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE | replace "discovery-server" (printf "%s-discovery-server-svc" .Release.Name) | quote }}
+              value: http://discovery-server:8761/eureka # Code cứng tên
             - name: EUREKA_INSTANCE_HOSTNAME
               valueFrom:
                 fieldRef:
-                  fieldPath: status.podIP
+                  fieldPath: status.podIP # Use Pod IP as hostname
             - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
-              value: {{ .Values.vets_service.env.MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE | quote }}
+              value: "*"
             - name: SPRING_CLOUD_DISCOVERY_HEALTH_TIMEOUT
-              value: {{ .Values.vets_service.env.SPRING_CLOUD_DISCOVERY_HEALTH_TIMEOUT | quote }}
+              value: "5000"
             - name: SPRING_CLOUD_DISCOVERY_CLIENT_HEALTHINDICATOR_USE-DISCOVERY-METADATA
-              value: {{ .Values.vets_service.env.SPRING_CLOUD_DISCOVERY_CLIENT_HEALTHINDICATOR_USE_DISCOVERY_METADATA | quote }}
+              value: "true"
             - name: SPRING_CLOUD_DISCOVERY_CLIENT_HEALTHINDICATOR_MANAGEMENT_PORT
-              value: {{ .Values.vets_service.env.SPRING_CLOUD_DISCOVERY_CLIENT_HEALTHINDICATOR_MANAGEMENT_PORT | quote }}
+              value: "${management.server.port:${server.port}}"
             - name: SPRING_CLOUD_DISCOVERY_HEALTH_RETRY_MAX_ATTEMPTS
-              value: {{ .Values.vets_service.env.SPRING_CLOUD_DISCOVERY_HEALTH_RETRY_MAX_ATTEMPTS | quote }}
+              value: "5"
             - name: SPRING_CLOUD_DISCOVERY_HEALTH_RETRY_INITIAL_INTERVAL
-              value: {{ .Values.vets_service.env.SPRING_CLOUD_DISCOVERY_HEALTH_RETRY_INITIAL_INTERVAL | quote }}
+              value: "1000"
             - name: SPRING_CLOUD_DISCOVERY_CLIENT_HEALTHINDICATOR_MANAGEMENT_BASE_URL
-              value: {{ .Values.vets_service.env.SPRING_CLOUD_DISCOVERY_CLIENT_HEALTHINDICATOR_MANAGEMENT_BASE_URL | quote }}
+              value: "http://${status.podIP}:${management.server.port:${server.port}}/actuator"
           readinessProbe:
             httpGet:
               path: /actuator/health
-              port: {{ .Values.vets_service.port }}
+              port: 8083
             initialDelaySeconds: 5
             periodSeconds: 5
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Release.Name }}-vets-service-svc
+  name: vets-service # Code cứng tên
   namespace: {{ .Values.namespace }}
   labels:
     app: vets-service
@@ -67,5 +67,5 @@ spec:
     app: vets-service
   ports:
     - protocol: TCP
-      port: {{ .Values.vets_service.port }}
-      targetPort: {{ .Values.vets_service.port }}
+      port: 8083
+      targetPort: 8083
