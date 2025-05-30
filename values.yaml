@@ -103,16 +103,16 @@ api_gateway:
     SPRING_CLOUD_DISCOVERY_HEALTH_RETRY_INITIAL_INTERVAL: "1000"
     SPRING_CLOUD_DISCOVERY_CLIENT_HEALTHINDICATOR_MANAGEMENT_BASE_URL: "http://${status.podIP}:${management.server.port:${server.port}}/actuator"
 
-tracing_server:
-  replicaCount: 1
-  image: openzipkin/zipkin
-  tag: ""
-  port: 9411
-  serviceType: LoadBalancer
-  nodePort: 31411
-  resources:
-    limits:
-      memory: 512Mi
+# tracing_server:
+#   replicaCount: 1
+#   image: openzipkin/zipkin
+#   tag: ""
+#   port: 9411
+#   serviceType: LoadBalancer
+#   nodePort: 31411
+#   resources:
+#     limits:
+#       memory: 512Mi
 
 # admin_server:
 #   replicaCount: 1
