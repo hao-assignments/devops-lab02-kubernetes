@@ -18,6 +18,7 @@ discovery_server:
     limits:
       memory: 512Mi
   env:
-    SPRING_PROFILES_ACTIVE: docker,kubernetes
+    SPRING_PROFILES_ACTIVE: docker # Keep this, as it's part of the app's expected setup
     MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: "*"
-    spring.cloud.config.uri: http://10.108.42.224:8888
+    # THIS IS THE CRUCIAL CHANGE: Override the hardcoded config server URL
+    SPRING_CONFIG_IMPORT: configserver:http://petclinic-dev-config-server-svc:8888
