@@ -44,7 +44,7 @@ spec:
     - protocol: TCP
       port: 9411
       targetPort: 9411
-    {{- if .Values.tracing_server.nodePort }}
-    nodePort: {{ .Values.tracing_server.nodePort }}
-    {{- end }}
+      {{- if .Values.tracing_server.nodePort }}
+      nodePort: {{ .Values.tracing_server.nodePort }}
+      {{- end }}
   type: {{ .Values.tracing_server.serviceType | default "LoadBalancer" }}
