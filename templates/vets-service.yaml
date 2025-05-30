@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: vets-service # Code cứng tên
+  name: vets-service
   namespace: {{ .Values.namespace }}
   labels:
     app: vets-service
@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: vets-service
-          image: springcommunity/spring-petclinic-vets-service
+          image: {{ .Values.vets_service.image }}
           ports:
             - containerPort: 8083
           resources:
@@ -27,9 +27,9 @@ spec:
             - name: SPRING_PROFILES_ACTIVE
               value: docker
             - name: SPRING_CLOUD_CONFIG_URI
-              value: http://config-server:8888 # Code cứng tên
+              value: http://config-server:8888
             - name: EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE
-              value: http://discovery-server:8761/eureka # Code cứng tên
+              value: http://discovery-server:8761/eureka
             - name: EUREKA_INSTANCE_HOSTNAME
               valueFrom:
                 fieldRef:
@@ -58,7 +58,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: vets-service # Code cứng tên
+  name: vets-service
   namespace: {{ .Values.namespace }}
   labels:
     app: vets-service

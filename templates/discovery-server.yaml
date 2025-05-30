@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: discovery-server # Code cứng tên
+  name: discovery-server
   namespace: {{ .Values.namespace }}
   labels:
     app: discovery-server
@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: discovery-server
-          image: springcommunity/spring-petclinic-discovery-server
+          image: {{ .Values.discovery_server.image }}
           ports:
             - containerPort: 8761
           resources:
@@ -42,7 +42,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: discovery-server # Code cứng tên
+  name: discovery-server
   namespace: {{ .Values.namespace }}
   labels:
     app: discovery-server
