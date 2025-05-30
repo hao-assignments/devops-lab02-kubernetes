@@ -22,3 +22,4 @@ discovery_server:
     MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: "*"
     # THIS IS THE CRUCIAL CHANGE: Override the hardcoded config server URL
     SPRING_CONFIG_IMPORT: configserver:http://petclinic-dev-config-server-svc:8888
+    spring.cloud.config.uri: http://petclinic-dev-config-server-svc:8888
