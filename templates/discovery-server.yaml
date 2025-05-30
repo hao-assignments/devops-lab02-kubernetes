@@ -24,11 +24,14 @@ spec:
             - containerPort: {{ .Values.discovery_server.port }}
           resources:
             {{- toYaml .Values.discovery_server.resources | nindent 12 }}
+          envFrom:
+            - configMapRef:
+                name: {{ .Release.Name }}-discovery-server-config
           env:
-            {{- range $key, $value := .Values.discovery_server.env }}
-            - name: {{ $key }}
-              value: {{ $value | quote }}
-            {{- end }}
+            - name: SPRING_PROFILES_ACTIVE
+              value: docker
+            - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
+              value: "*"
           readinessProbe:
             httpGet:
               path: /actuator/health
