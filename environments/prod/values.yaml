@@ -21,7 +21,7 @@ api_gateway:
 tracing_server:
   image: openzipkin/zipkin:latest
   serviceType: LoadBalancer 
-  nodePort: 31413
+  nodePort: 31414
 
 admin_server:
   image: springcommunity/spring-petclinic-admin-server:latest
