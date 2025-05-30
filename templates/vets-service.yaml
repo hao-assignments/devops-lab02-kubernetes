@@ -1,0 +1,71 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-vets-service
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: vets-service
+spec:
+  replicas: {{ .Values.vets_service.replicaCount }}
+  selector:
+    matchLabels:
+      app: vets-service
+  template:
+    metadata:
+      labels:
+        app: vets-service
+    spec:
+      containers:
+        - name: vets-service
+          image: "{{ .Values.vets_service.image }}"
+          ports:
+            - containerPort: {{ .Values.vets_service.port }}
+          resources:
+            limits:
+              memory: {{ .Values.vets_service.resources.limits.memory | quote }}
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: {{ .Values.vets_service.env.SPRING_PROFILES_ACTIVE | quote }}
+            - name: SPRING_CLOUD_CONFIG_URI
+              value: {{ .Values.vets_service.env.SPRING_CLOUD_CONFIG_URI | replace "config-server" (printf "%s-config-server-svc" .Release.Name) | quote }}
+            - name: EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE
+              value: {{ .Values.vets_service.env.EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE | replace "discovery-server" (printf "%s-discovery-server-svc" .Release.Name) | quote }}
+            - name: EUREKA_INSTANCE_HOSTNAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+            - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
+              value: {{ .Values.vets_service.env.MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE | quote }}
+            - name: SPRING_CLOUD_DISCOVERY_HEALTH_TIMEOUT
+              value: {{ .Values.vets_service.env.SPRING_CLOUD_DISCOVERY_HEALTH_TIMEOUT | quote }}
+            - name: SPRING_CLOUD_DISCOVERY_CLIENT_HEALTHINDICATOR_USE-DISCOVERY-METADATA
+              value: {{ .Values.vets_service.env.SPRING_CLOUD_DISCOVERY_CLIENT_HEALTHINDICATOR_USE_DISCOVERY_METADATA | quote }}
+            - name: SPRING_CLOUD_DISCOVERY_CLIENT_HEALTHINDICATOR_MANAGEMENT_PORT
+              value: {{ .Values.vets_service.env.SPRING_CLOUD_DISCOVERY_CLIENT_HEALTHINDICATOR_MANAGEMENT_PORT | quote }}
+            - name: SPRING_CLOUD_DISCOVERY_HEALTH_RETRY_MAX_ATTEMPTS
+              value: {{ .Values.vets_service.env.SPRING_CLOUD_DISCOVERY_HEALTH_RETRY_MAX_ATTEMPTS | quote }}
+            - name: SPRING_CLOUD_DISCOVERY_HEALTH_RETRY_INITIAL_INTERVAL
+              value: {{ .Values.vets_service.env.SPRING_CLOUD_DISCOVERY_HEALTH_RETRY_INITIAL_INTERVAL | quote }}
+            - name: SPRING_CLOUD_DISCOVERY_CLIENT_HEALTHINDICATOR_MANAGEMENT_BASE_URL
+              value: {{ .Values.vets_service.env.SPRING_CLOUD_DISCOVERY_CLIENT_HEALTHINDICATOR_MANAGEMENT_BASE_URL | quote }}
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: {{ .Values.vets_service.port }}
+            initialDelaySeconds: 5
+            periodSeconds: 5
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-vets-service-svc
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: vets-service
+spec:
+  selector:
+    app: vets-service
+  ports:
+    - protocol: TCP
+      port: {{ .Values.vets_service.port }}
+      targetPort: {{ .Values.vets_service.port }}
