@@ -1,12 +1,27 @@
 prometheus:
-  alertmanager:
-    enabled: true
+  enabled: true
+  prometheusSpec:
+    replicas: 2
+    serviceMonitorSelector: {}
+    serviceMonitorSelectorNilUsesHelmValues: false
 
 grafana:
-  adminPassword: "admin"
-  service:
-    type: ClusterIP
-
-loki-stack:
-  promtail:
+  enabled: true
+  adminPassword: "admin"  # Mật khẩu admin cho Grafana
+  sidecar:
+    dashboards:
+      enabled: true
+  ingress:
     enabled: true
+    path: /
+    hosts:
+      - grafana.local  # Địa chỉ host của Grafana trong môi trường dev
+    annotations:
+      nginx.ingress.kubernetes.io/rewrite-target: /
+
+alertmanager:
+  enabled: true
+  ingress:
+    enabled: true
+    hosts:
+      - alertmanager.local  # Địa chỉ host của Alertmanager trong môi trường dev

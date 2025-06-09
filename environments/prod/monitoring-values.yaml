@@ -1,0 +1,25 @@
+prometheus:
+  prometheusSpec:
+    replicas: 1  # 1 replica cho môi trường dev
+    serviceMonitorSelector:
+      matchLabels:
+        app.kubernetes.io/instance: petclinic-prod  # Chỉ định các service của petclinic-prod
+
+grafana:
+  enabled: true
+  ingress:
+    enabled: true
+    hosts:
+      - grafana-prod.nguyenanhhao.site  # Sử dụng domain riêng cho Grafana trong dev
+    annotations:
+      nginx.ingress.kubernetes.io/rewrite-target: /
+  sidecar:
+    dashboards:
+      enabled: true
+
+alertmanager:
+  enabled: true
+  ingress:
+    enabled: true
+    hosts:
+      - alertmanager-prod.nguyenanhhao.site  # Sử dụng domain riêng cho Alertmanager trong dev
