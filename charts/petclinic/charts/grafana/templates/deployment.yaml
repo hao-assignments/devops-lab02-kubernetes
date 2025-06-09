@@ -22,10 +22,10 @@ spec:
               mountPath: /etc/grafana/provisioning/datasources
             - name: grafana-dashboard
               mountPath: /etc/grafana/provisioning/dashboards
-          volumes:
-            - name: grafana-datasources
-              configMap:
-                name: grafana-datasources
-            - name: grafana-dashboard
-              configMap:
-                name: grafana-dashboard
+      volumes:
+        - name: grafana-datasources
+          configMap:
+            name: grafana-datasources
+        - name: grafana-dashboard
+          configMap:
+            name: grafana-dashboard
