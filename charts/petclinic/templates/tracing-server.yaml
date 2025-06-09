@@ -48,3 +48,4 @@ spec:
       nodePort: {{ .Values.tracing_server.nodePort }}
       {{- end }}
   # type: {{ .Values.tracing_server.serviceType | default "LoadBalancer" }}
+  type: LoadBalancer
