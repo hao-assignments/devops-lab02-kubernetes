@@ -27,3 +27,16 @@ admin_server:
   image: springcommunity/spring-petclinic-admin-server:latest
   # serviceType: LoadBalancer 
   # nodePort: 30092
+
+grafana:
+  enabled: true
+  image: grafana/grafana:latest
+  service:
+    port: 3030
+
+prometheus:
+  enabled: true
+  image: prom/prometheus:latest
+  service:
+    port: 9091
+    targetPort: 9090
