@@ -7,7 +7,15 @@ datasources:
   type: prometheus
   access: proxy
   org_id: 1
-  url: http://prometheus-server:9090
+  url: http://prometheus.petclinic-prod.svc.cluster.local:9090
   is_default: true
   version: 1
+  editable: true
+
+- name: Loki
+  type: loki
+  access: proxy
+  org_id: 1
+  url: http://loki-stack.petclinic-prod.svc.cluster.local:3100
+  is_default: false
   editable: true
