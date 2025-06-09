@@ -15,7 +15,7 @@ grafana:
     enabled: true
     path: /
     hosts:
-      - grafana.local  # Địa chỉ host của Grafana trong môi trường dev
+      - grafana.nguyenanhhao.site
     annotations:
       nginx.ingress.kubernetes.io/rewrite-target: /
 
@@ -24,4 +24,4 @@ alertmanager:
   ingress:
     enabled: true
     hosts:
-      - alertmanager.local  # Địa chỉ host của Alertmanager trong môi trường dev
+      - alertmanager.nguyenanhhao.site  # Địa chỉ host của Alertmanager trong môi trường dev
