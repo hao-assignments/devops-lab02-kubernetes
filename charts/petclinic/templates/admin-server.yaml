@@ -72,4 +72,4 @@ spec:
       {{- if .Values.admin_server.nodePort }}
       nodePort: {{ .Values.admin_server.nodePort }}
       {{- end }}
-  type: {{ .Values.admin_server.serviceType | default "LoadBalancer" }}
+  # type: {{ .Values.admin_server.serviceType | default "LoadBalancer" }}

@@ -20,10 +20,10 @@ api_gateway:
 
 tracing_server:
   image: openzipkin/zipkin:latest
-  serviceType: ClusterIP
+  # serviceType: ClusterIP
   # nodePort: 31411      
 
 admin_server:
   image: springcommunity/spring-petclinic-admin-server:latest
-  serviceType: ClusterIP 
+  # serviceType: ClusterIP 
   # nodePort: 30090      
