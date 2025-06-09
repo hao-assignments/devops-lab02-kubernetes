@@ -1,0 +1,12 @@
+prometheus:
+  alertmanager:
+    enabled: true
+
+grafana:
+  adminPassword: "admin"
+  service:
+    type: ClusterIP
+
+loki-stack:
+  promtail:
+    enabled: true
