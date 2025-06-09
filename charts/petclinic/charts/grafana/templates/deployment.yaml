@@ -16,7 +16,7 @@ spec:
         - name: grafana
           image: {{ .Values.image }}
           ports:
-            - containerPort: 3030
+            - containerPort: 3000
           volumeMounts:
             - name: grafana-datasources
               mountPath: /etc/grafana/provisioning/datasources
